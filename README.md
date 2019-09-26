@@ -16,7 +16,12 @@
 - 자바 : 1.8
 - 프레임워크 : Spring MVC 5.0.4
 - SQLMapper :  Mybatis 3.5.0
-- WAS : AWS EC2 (Ubuntu 16.04)에 Tomcat 8.5
+- WAS : Tomcat 8.5
+- Javascript Library : jQuery 3.3.1
+- UI Library : MDBootstrap
+
+**배포환경**
+- 웹서버 : AWS EC2 (Ubuntu 16.04)
 - DB서버 : AWS RDS (MySQL Community 5.7.26)
 - 파일서버 : AWS S3
 
