@@ -1,0 +1,234 @@
+/*@import url("/resources/fonts/Delimax.ttf");*/
+@font-face {
+    font-family: "Delimax";
+    src: url('/resources/fonts/Delimax.ttf');
+}
+
+.store-title {
+    font-family: "Delimax", sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+.gradient-bg {
+    background: #1d2b64; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #1d2b64, #f8cdda); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #1d2b64, #f8cdda); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.bg {
+    background-color: #f8f8f8 !important;
+}
+.bg-cgray {
+    background-color: #6c757d !important;
+}
+
+.card {
+    background-color: #fff !important;
+}
+
+.card-product {
+    margin-bottom: 1rem;
+}
+
+.card-product:hover {
+    -webkit-box-shadow: 0 6px 15px rgba(153, 153, 153, 0.5);
+    box-shadow: 0 6px 15px rgba(153, 153, 153, 0.5);
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+.paragraph {
+    font-weight: 200;
+}
+
+.card-product .img-wrap img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    display: inline-block;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.padding-y {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.card-group-item {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.price-old {
+    color: #999;
+}
+
+.header-main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.title-header {
+    line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.title-link {
+    color: black;
+}
+
+.title-link:hover {
+    -moz-transition: all .4s ease-in;
+    -o-transition: all .4s ease-in;
+    -webkit-transition: all .4s ease-in;
+    transition: all .4s ease-in;
+    color: #999;
+}
+
+.list-lg li {
+    margin-bottom: 10px;
+}
+.main-footer {
+    padding: 2.5rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+}
+
+.top-nav {
+    color: #e5e5e5;
+}
+/*.top-nav:hover, .top-nav:focus {*/
+    /*color: #e2e6ea;*/
+/*}*/
+
+.svg-on:hover {
+    cursor: pointer;
+    fill: white;
+    transition: all ease 0.3s;
+}
+
+.card {
+    border: 0;
+    background-color: transparent;
+}
+
+.align-center {
+    justify-content: center;
+}
+
+.box {
+    padding: 0 5px 0 5px;
+}
+
+.hm-right a:hover{
+    text-decoration: none;
+    color: #e62e04;
+}
+
+.nav-cart a:before {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+
+    background-image: url("/resources/img/shopping-cart.svg");
+    background-position: 0 -575px;
+    background-repeat: no-repeat;
+}
+
+.icon-text {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.icon-text .icon-wrap {
+    position: relative;
+}
+
+.icon-wrap {
+    text-align: center;
+}
+
+.icon-sm {
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    font-size: 22px;
+}
+
+.round {
+    border-radius: 200px;
+}
+
+.footer-top .title {
+    font-weight: 600;
+}
+
+.border-top-white {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+/*.media-show {*/
+    /*display: block;*/
+/*}*/
+
+/*@media(min-width: 768px)  {*/
+    /*.media-show {*/
+        /*display: none;*/
+    /*}*/
+/*}*/
+
+.gallery-wrap img {
+    max-width: 450px;
+}
+
+.gallery-wrap .img-big-wrap {
+    margin-bottom: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.gallery-wrap .img-small-wrap {
+    text-align: center;
+}
+
+.gallery-wrap .img-small-wrap .item-gallery {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    margin: 7px 2px;
+    display: inline-block;
+    overflow: hidden;
+}
+.gallery-wrap .img-small-wrap .item-gallery img {
+    max-width: 450px;
+    width: 100%;
+    height: auto;
+}
+
+.minimum-height {
+    min-height: 500px;
+}
+
+.error-template {padding: 40px 15px;text-align: center;}
+.error-actions {margin-top:15px;margin-bottom:15px;}
+.error-actions .btn { margin-right:10px; }
+
+.description-image {
+    width: 250px;
+}
+
+.blur-div {
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+}
+
+.h2_underline {
+    border-bottom: 5px solid #1956B3;
+    display: inline-block;
+}

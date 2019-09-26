@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductMapper">
+    <select id="getAllProducts" resultType="com.phm.shopping.domain.ProductVO">
+        SELECT * FROM product
+    </select>
+    <select id="getProductById" parameterType="map" resultType="com.phm.shopping.domain.ProductVO">
+        SELECT * FROM product WHERE id=#{productId}
+    </select>
+    <insert id="insertProduct" parameterType="com.phm.shopping.domain.ProductVO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product(name, description, price, inventory, reg_date, category_id, discount)
+        VALUES(#{name}, #{description}, #{price}, #{inventory}, #{regDate}, #{categoryId}, #{discount})
+    </insert>
+    <update id="updateProduct" parameterType="com.phm.shopping.domain.ProductVO">
+        UPDATE product
+        SET name=#{name}, description=#{description}, price=#{price},
+            inventory=#{inventory}, category_id=#{categoryId}, discount=#{discount}
+        WHERE id=#{id};
+    </update>
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM product WHERE productId = #{productId}
+    </delete>
+    <select id="getCategories" resultType="com.phm.shopping.domain.CategoryVO">
+        SELECT cat_count.category_id, cat_count.cnt, category.name
+        FROM (SELECT category_id, COUNT(name) AS cnt FROM product GROUP BY category_id) AS cat_count INNER JOIN category
+        ON category.id = cat_count.category_id
+        ORDER BY category_id;
+    </select>
+
+    <!-- get ProductWithPhotoVOs AREA -->
+    <select id="getProductsLateN" parameterType="map" resultType="com.phm.shopping.domain.ProductWithPhotoVO">
+        SELECT p.*, pp.rand_name, pp.title_ck, pp.origin_name
+        FROM (SELECT *
+              FROM product
+              ORDER BY reg_date DESC
+              LIMIT 0, #{count}) AS p
+        INNER JOIN product_photo pp
+        ON p.id = pp.product_id
+        WHERE pp.title_ck=1;
+    </select>
+    <select id="getProductsTopN" parameterType="map" resultType="com.phm.shopping.domain.ProductWithPhotoVO" >
+        SELECT p.*, pp.rand_name, pp.title_ck, pp.origin_name
+        FROM (SELECT product_id, SUM(quantity) as quantity
+			  FROM order_product
+			  GROUP BY product_id
+			  ORDER BY quantity DESC
+			  LIMIT 0, #{count}) AS pq
+              INNER JOIN product_photo pp ON pq.product_id = pp.product_id
+              INNER JOIN product p ON p.id = pp.product_id;
+    </select>
+
+    <select id="getProductsByCatAndPage" parameterType="map" resultType="com.phm.shopping.domain.ProductWithPhotoVO">
+        SELECT paged_products.*, product_photo.rand_name, product_photo.title_ck, product_photo.origin_name
+        FROM (SELECT * FROM product WHERE category_id=#{categoryId} ORDER BY id DESC LIMIT #{limit} OFFSET #{offset}) as paged_products inner join product_photo
+        on paged_products.id = product_photo.product_id;
+    </select>
+    <select id="getProductsByPage" parameterType="map" resultType="com.phm.shopping.domain.ProductWithPhotoVO">
+        SELECT paged_products.*, product_photo.rand_name, product_photo.title_ck, product_photo.origin_name
+        FROM (SELECT * FROM product ORDER BY id DESC LIMIT #{limit} OFFSET #{offset}) AS paged_products INNER JOIN product_photo
+        ON paged_products.id = product_photo.product_id
+        ORDER BY paged_products.id DESC
+    </select>
+
+    <select id="getProductCounts" resultType="int">
+        SELECT COUNT(*) FROM product
+    </select>
+
+    <select id="getProductCountsByCategory" resultType="int" parameterType="map">
+        SELECT COUNT(*) FROM product WHERE category_id=#{category}
+    </select>
+
+    <!-- 해당 상품 관련 사진들 가져오기 -->
+    <select id="getProductPhotoById" parameterType="map" resultType="com.phm.shopping.domain.ProductPhotoVO">
+        SELECT * FROM product_photo WHERE product_id = #{productId}
+    </select>
+
+    <insert id="insertProductPhoto" parameterType="com.phm.shopping.domain.ProductPhotoVO">
+        INSERT INTO product_photo(rand_name, title_ck, product_id, origin_name)
+        VALUES(#{randName}, #{titleCk}, #{productId}, #{originName})
+    </insert>
+
+    <!-- 전체 상품 중 원하는 갯수씩 카테고리명과 함께 호출 -->
+    <select id="getProductsWithCat" parameterType="map" resultType="com.phm.shopping.domain.ProductWithCatVO">
+      SELECT p.*, c.name as category_name
+      FROM product p
+            INNER JOIN category c ON p.category_id = c.id
+            ORDER BY id DESC
+            LIMIT #{start}, #{pageSize}
+    </select>
+    <!-- 해당상품과 해당 카테고리명 호출 where productId로 -->
+    <select id="getProductDetailById" parameterType="map" resultType="com.phm.shopping.domain.ProductWithCatVO">
+        SELECT product.*, category.name AS category_name
+        FROM (SELECT *
+              FROM product
+              WHERE product.id = #{productId}
+        ) AS product INNER JOIN category
+        ON product.category_id = category.id
+    </select>
+
+    <!-- CART AREA -->
+    <select id="getCartByParameter" parameterType="map" resultType="com.phm.shopping.domain.CartWithProductInfoVO">
+        SELECT ca.*, pppd.rand_name, pppd.name, pppd.price, pppd.discount
+        FROM
+            (SELECT pp.rand_name, pd.id, pd.name, pd.price, pd.discount
+            FROM product_photo AS pp INNER JOIN product AS pd
+            ON  pp.product_id = pd.id
+            ) AS pppd INNER JOIN cart AS ca
+        ON pppd.id = ca.product_id
+        <where>
+            <if test="username != null">
+              ca.username=#{username}
+            </if>
+            <if test="cartId != null">
+              ca.id=#{cartId}
+            </if>
+        </where>
+        ORDER BY ca.reg_dt DESC;
+    </select>
+    <select id="getCart" parameterType="map" resultType="com.phm.shopping.domain.CartVO">
+        SELECT * FROM cart
+        WHERE id=#{cartId};
+    </select>
+    <insert id="insertCart" parameterType="com.phm.shopping.domain.CartVO">
+        INSERT INTO cart(username, product_id, quantity, reg_dt)
+        VALUES(#{username}, #{productId}, #{quantity}, #{regDt});
+    </insert>
+    <update id="updateCart" parameterType="com.phm.shopping.domain.CartVO">
+        UPDATE cart
+        SET quantity=#{quantity}
+        WHERE id=#{id};
+    </update>
+    <update id="updateCartOrderCheck" parameterType="map">
+        UPDATE cart
+        SET order_check=#{orderCheck}
+        WHERE id=#{cartId};
+    </update>
+    <delete id="deleteCart" parameterType="com.phm.shopping.domain.CartVO">
+        DELETE FROM cart
+        WHERE id=#{id};
+    </delete>
+    <delete id="deleteCartById" parameterType="int">
+        DELETE FROM cart
+        WHERE id=#{cartId};
+    </delete>
+
+    <!-- 구매내역 확인할 때 -->
+    <select id="getProductsByProductId" parameterType="int" resultType="com.phm.shopping.domain.OrderedProductVO">
+        SELECT p.*, op.quantity, pp.rand_name, pp.title_ck, pp.origin_name
+        FROM (SELECT *
+			  FROM order_product
+			  WHERE order_id=#{orderId}) op
+              JOIN product p ON p.id = op.product_id
+              JOIN product_photo pp ON p.id = pp.product_id
+        WHERE title_ck = 1;
+    </select>
+</mapper>

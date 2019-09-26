@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderMapper">
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.phm.shopping.domain.OrderVO">
+        INSERT INTO order_info(username, orderer, phone, addr1, addr2, postal_code, requirements, total_price, payment_method, payment_status, shipping_status, reg_date)
+        VALUES(#{username}, #{orderer}, #{phone}, #{addr1}, #{addr2}, #{postalCode}, #{requirements}, #{totalPrice}, #{paymentMethod}, #{paymentStatus}, #{shippingStatus}, #{regDate});
+    </insert>
+    <update id="updateOrder" parameterType="com.phm.shopping.domain.OrderVO">
+        UPDATE order_info
+        SET payment_status = #{paymentStatus}, shipping_status = #{shippingStatus}, shipping_no = #{shippingNo}
+        WHERE id = #{id};
+    </update>
+
+    <select id="getOrderById" parameterType="int" resultType="com.phm.shopping.domain.OrderVO">
+        SELECT * FROM order_info WHERE id=#{orderId};
+    </select>
+
+    <!-- [이용자] - 구매내역보기 -->
+    <select id="getTotalOrderInfoByUsername" parameterType="map" resultType="com.phm.shopping.domain.TotalOrderInfoVO">
+        SELECT p.name, p.price, oi.*, op.quantity, pp.rand_name, pp.origin_name
+        FROM (SELECT *
+                    FROM order_info
+                    WHERE username = #{username} ) oi
+        INNER JOIN order_product op ON op.order_id = oi.id
+        INNER JOIN product p ON op.product_id = p.id
+        INNER JOIN category c ON p.category_id = c.id
+        INNER JOIN (SELECT * FROM product_photo WHERE title_ck=1) pp ON p.id = pp.product_id
+        ORDER BY id DESC
+        LIMIT #{start}, #{pageSize};
+    </select>
+
+    <select id="getOrderWithCountPerPage" parameterType="map" resultType="com.phm.shopping.domain.OrderWithCountVO">
+        SELECT oi.*, COUNT(oi.id) as order_count, p.name as product_name
+        FROM order_info oi
+                    INNER JOIN order_product op ON oi.id = op.order_id
+                    INNER JOIN product p ON p.id = op.product_id
+        GROUP BY oi.id
+        ORDER BY id DESC
+        LIMIT #{start}, #{pageSize};
+    </select>
+
+    <!-- *주의 관리자에서 사용하는 메소드로 단순히 주문카운트만 -->
+    <select id="getTotalOrderCount" resultType="int">
+        SELECT COUNT(*) FROM order_info;
+    </select>
+
+    <!-- 이용자에서 사용하는 메소드로 주문에 엮인 상품목록들을 보여줄때 카운트 -->
+    <select id="getTotalOrderCountByUsername" resultType="int" parameterType="Map">
+        SELECT COUNT(*)
+        FROM (SELECT *
+                    FROM order_info
+                    WHERE username = #{username} ) oi
+        INNER JOIN order_product op ON op.order_id = oi.id
+        INNER JOIN product p ON op.product_id = p.id
+        INNER JOIN category c ON p.category_id = c.id
+        INNER JOIN (SELECT * FROM product_photo WHERE title_ck=1) pp ON p.id = pp.product_id
+    </select>
+</mapper>

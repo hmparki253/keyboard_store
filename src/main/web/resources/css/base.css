@@ -1,0 +1,19 @@
+@import url("//fonts.googleapis.com/earlyaccess/notosanskr.css");
+@import url("//cdn.jsdelivr.net/gh/velopert/font-d2coding@1.2.1/d2coding.css");
+
+body {
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    font-family: "Noto Sans KR", sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/** {*/
+    /*box-sizing: inherit;*/
+/*}*/
+
+/*a {*/
+    /*text-decoration: inherit !important;*/
+    /*color: inherit !important;*/
+/*}*/
