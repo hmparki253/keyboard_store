@@ -56,24 +56,24 @@
                     <div class="container mt-5" style="max-width: 420px; min-height: 350px;">
                         <c:if test="${param.error != null}">
                             <div class="from-group text-warning">
-                                <label for="">
+                                <label>
                                     이런! 일치하는 아이디와 비밀번호가 아닙니다.
                                 </label>
                             </div>
                         </c:if>
                         <div class="from-group">
-                            <label for="">아이디</label>
+                            <label for="username">아이디</label>
                             <input type="text" name="username" id="username" class="form-control">
                         </div>
                         <div class="from-group mt-3">
-                            <label for="">비밀번호</label>
+                            <label for="password">비밀번호</label>
                             <input type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="form-group text-center mt-3">
                             <button type="submit" class="btn btn-primary mt-3">로그인</button>
                         </div>
                         <div class="form-group text-center">
-                            <a href="#">
+                            <a href="<c:url value="/join"/> ">
                                 <small>회원가입</small>
                             </a>
                         </div>

@@ -5,6 +5,7 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="spring_shopping" />
+          <element id="module-output" name="shopping" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.0.4.RELEASE" />
@@ -227,6 +228,8 @@
       </element>
       <element id="javaee-facet-resources" facet="spring_shopping/web/Web" />
       <element id="javaee-facet-resources" facet="spring_shopping/web/Web" />
+      <element id="javaee-facet-resources" facet="shopping/web/Web" />
+      <element id="javaee-facet-resources" facet="shopping/web/Web" />
     </root>
   </artifact>
 </component>
