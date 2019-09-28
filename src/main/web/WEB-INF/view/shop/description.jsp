@@ -19,7 +19,7 @@
     <%@include file="../partial/header.jsp"%>
     <%@include file="../partial/menubar.jsp"%>
     <section class="section-content bg padding-y">
-        <div class="container">
+        <div class="container minimum-height">
             <h2>상점</h2>
             <div class="row">
                 <aside class="col-sm-3">

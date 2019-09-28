@@ -84,10 +84,10 @@
                                                 <a href="<c:url value="/shop/description/${product.id}?category=${product.categoryId}&amp;curPage=${curPage}"/>" class="btn btn-primary ml-0">상세보기</a>
                                                 <a href="#" class="btn btn-secondary ml-0">장바구니</a>
                                             </p>
-                                            <a class="text-danger" href="#">
-                                                <i class="fa fa-heart"></i>
-                                                찜하기
-                                            </a>
+<%--                                            <a class="text-danger" href="#">--%>
+<%--                                                <i class="fa fa-heart"></i>--%>
+<%--                                                찜하기--%>
+<%--                                            </a>--%>
                                         </div>
                                     </aside>
                                 </div>
