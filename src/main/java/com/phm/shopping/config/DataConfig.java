@@ -108,12 +108,11 @@ public class DataConfig implements TransactionManagementConfigurer {
         dataSource.setInitialPoolSize(initialPoolSize);
         dataSource.setMinPoolSize(minPoolSize);
         dataSource.setMaxPoolSize(maxPoolSize);
-        dataSource.setMaxIdleTime(0);
-
-        dataSource.setTestConnectionOnCheckout(true);
+        dataSource.setMaxIdleTime(maxIdleTime);
 
         // MySql의 끊기는 문제를 해결하기 위하여 넣은 구문
         dataSource.setIdleConnectionTestPeriod(300);
+        dataSource.setTestConnectionOnCheckout(true);
         dataSource.setPreferredTestQuery("SELECT 1");
 
         return dataSource;
