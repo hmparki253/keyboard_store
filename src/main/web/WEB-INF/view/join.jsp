@@ -17,32 +17,7 @@
 </head>
 <body>
     <%@include file="partial/header.jsp" %>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-cgray">
-    <div class="container">
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse" id="main_nav" style="">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link font-weight-bold pl-0" href="<c:url value="/"/>">메인</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/shop/list"/>"><strong>상점</strong></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">INFO</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Q&amp;A</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">결제</a>
-                </li>
-            </ul>
-        </div> <!-- collapse .// -->
-    </div> <!-- container .// -->
-</nav>
+    <%@include file="partial/menubar.jsp" %>
     <section class="section-content bg padding-y">
     <div class="container">
         <div class="col-md-12 mb-4">

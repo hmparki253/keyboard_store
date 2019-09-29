@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class CartRestController {
@@ -60,6 +62,16 @@ public class CartRestController {
             flag = true;
         }
         return flag;
+    }
+
+    @PostMapping("/buying")
+    public Map<String, Object> buying(CartVO cartVO, Principal principal) {
+        Map<String, Object> map = new HashMap<>();
+        cartVO.setUsername(principal.getName());
+        cartVO.setRegDt(new Date());
+        cartServiceImpl.insertCartAndMinusProduct(cartVO);
+        map.put("cartId", cartVO.getId());
+        return map;
     }
 
 

@@ -122,7 +122,7 @@
         SELECT * FROM cart
         WHERE id=#{cartId};
     </select>
-    <insert id="insertCart" parameterType="com.phm.shopping.domain.CartVO">
+    <insert id="insertCart" parameterType="com.phm.shopping.domain.CartVO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO cart(username, product_id, quantity, reg_dt)
         VALUES(#{username}, #{productId}, #{quantity}, #{regDt});
     </insert>

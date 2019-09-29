@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 
 <!DOCTYPE html>
@@ -57,6 +58,12 @@
                 </aside>
                 <main class="col-sm-9">
                     <div class="card">
+                        <sec:authorize access="!isAuthenticated()">
+                            <input type="hidden" id="auth_var" value="0" />
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <input type="hidden" id="auth_var" value="1" />
+                        </sec:authorize>
                         <div class="row no-gutters">
                             <aside class="col-sm-6 border-right">
                                 <article class="gallery-wrap">
@@ -107,7 +114,7 @@
                                     </div>
                                     <hr>
                                     <a href="#" id="cart_btn" class="btn btn-warning"> <i class="fa fa-cart-plus"></i>장바구니에 추가</a>
-                                    <a href="#" class="btn btn-outline-warning">구입하기</a>
+                                    <a href="#" id="buy_btn" class="btn btn-outline-warning">구입하기</a>
                                     <!-- short-info-wrap .// -->
                                 </article> <!-- card-body.// -->
                             </aside> <!-- col.// -->
@@ -150,6 +157,25 @@
                 </div>
                 <div class="modal-body text-center">
                     <button type="button" class="btn btn-primary" onclick="goLogin()">로그인하기</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="quantityModal" tabindex="-1" role="dialog" aria-labelledby="quantityModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quantityModalLabel">구입에 실패하였습니다.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    현재 구매하시려는 제품이 매진되었습니다.
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
@@ -247,6 +273,27 @@
                })
            });
 
+           $('#buy_btn').click(function() {
+               if(checkAuthenticated()) {
+                   let cartVO = {"productId":parseInt($('#productId').val().toString()),
+                       "quantity":parseInt($('#quantity').val().toString())};
+                   $.ajax({
+                       type: 'POST',
+                       url: '<c:url value="/buying"/>',
+                       data: cartVO,
+                       async: false,
+                       success: function(args) {
+                           goOrder(args.cartId);
+                       },
+                       error: function(e) {
+                           $('#quantityModal').modal('show');
+                       }
+                   })
+               } else {
+                   $('#loginModal').modal('show');
+               }
+           });
+
 
            function cartCountInit() {
                let cartCount = 0;
@@ -266,6 +313,11 @@
                    cartCountObj.text(cartCount);
                }
            }
+
+           function checkAuthenticated() {
+                let isAuthenticated = $('#auth_var').val();
+                return isAuthenticated === "1";
+           }
         });
 
         function btn_common() {
@@ -281,6 +333,10 @@
 
         function goLogin() {
             window.location.replace("<c:url value="/login"/>");
+        }
+
+        function goOrder(cartId) {
+            window.location.replace("<c:url value="/order"/>?cartId="+cartId);
         }
     </script>
 </body>
