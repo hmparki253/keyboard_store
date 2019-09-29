@@ -138,6 +138,23 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">로그인이 필요한 기능입니다.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <button type="button" class="btn btn-primary" onclick="goLogin()">로그인하기</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="<c:url value="/resources/js/jquery-3.3.1.min.js" />"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
     <script src="<c:url value="/resources/js/popper.min.js" />"></script>
@@ -223,6 +240,9 @@
                    },
                    error: function(e) {
                        console.log("카트에 더하기에서 에러발생 : " + e.toString());
+                       // 에러 발생시 login이 되어있지 않다는 이야기이므로 login으로 redirection하자?
+                       // -> login모달 생성후 확인버튼 click시 이동하는것으로 변경하자
+                       $('#loginModal').modal('show');
                    }
                })
            });
@@ -257,6 +277,10 @@
             console.log('side_nav_' + category);
             var side_nav = document.getElementById('side_nav_' + category + '');
             side_nav.classList.add('font-weight-bold');
+        }
+
+        function goLogin() {
+            window.location.replace("<c:url value="/login"/>");
         }
     </script>
 </body>
